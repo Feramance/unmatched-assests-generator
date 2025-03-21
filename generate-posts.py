@@ -7,11 +7,11 @@ import os
 
 # Initialize TMDb
 tmdb = TMDb()
-tmdb.api_key = '57a056845e7b8bb93c7d7c7a980e722a'
+tmdb.api_key = 'TMDB_API_KEY'
 movie_api = Movie()
 
 # Initialize TVDb
-tvdb = Tvdb(apikey='b552a0fb43065915e81a145772ff00be')
+tvdb = Tvdb(apikey='TVDB_API_KEY')
 
 # File path
 file_path = 'unmatched_assets.log'  # Replace with your file path
