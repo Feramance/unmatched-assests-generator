@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Generated files
+movies*.txt
+series*.txt
+collections*.txt
+
+unmatched_assets.log
