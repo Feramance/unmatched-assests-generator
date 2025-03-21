@@ -177,5 +177,7 @@ cython_debug/
 movies*.txt
 series*.txt
 collections*.txt
+anime_series*.txt
+anime_movies*.txt
 
 unmatched_assets.log
