@@ -102,7 +102,7 @@ def write_to_files(items, item_type):
         if item_type in ('movies', 'anime_movies'):
             file_content.append(f"{item[0]} ({item[1]})\ntmdb: {item[2][0]}\n\n")
         elif item_type == 'collections':
-            file_content.append(f"{item[0]}\ntmdb: {item[2][0]}\n\n")
+            file_content.append(f"{item[0]}\ntmdb: {item[2]}\n\n")
         elif item_type in ('series', 'anime_series'):
             file_content.append(f"{item[0]} ({item[1]})\ntvdb: {item[2][0]}\n")
             if item[3]:
