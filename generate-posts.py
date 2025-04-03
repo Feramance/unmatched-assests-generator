@@ -54,14 +54,15 @@ def read_assets_from_file(file_path):
     collections = set()
     i = 0
     while i < len(lines):
-        movie_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\t(.*) \((\d{4})\)$', lines[i].strip())
+        line = lines[i]
+        movie_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\t(.*) \((\d{4})\)$', lines[i].strip())
         if movie_match:
-            if i + 1 < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\tSeason:', lines[i + 1].strip()):
+            if i + 1 < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\tSeason:', lines[i + 1].strip()):
                 series_name, year = movie_match.groups()
                 missing_seasons = []
                 i += 1  # Skip the season line
-                while i + 1 < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\tSeason:', lines[i + 1].strip()):
-                    season_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\tSeason: (\d+) <- Missing$', lines[i + 1].strip())
+                while i + 1 < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\tSeason:', lines[i + 1].strip()):
+                    season_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\tSeason: (\d+) <- Missing$', lines[i + 1].strip())
                     if season_match:
                         missing_seasons.append(season_match.group(1))
                     i += 1  # Skip additional season lines
@@ -69,25 +70,25 @@ def read_assets_from_file(file_path):
             else:
                 movies.add(movie_match.groups())
         else:
-            series_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\t(.*) \((\d{4})\) \(Seasons listed below have missing posters\)$', lines[i].strip())
+            series_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\t(.*) \((\d{4})\) \(Seasons listed below have missing posters\)$', lines[i].strip())
             if series_match:
                 series_name, year = series_match.groups()
                 missing_seasons = []
-                while i + 1 < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\tSeason:', lines[i + 1].strip()):
-                    season_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\tSeason: (\d+) <- Missing$', lines[i + 1].strip())
+                while i + 1 < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\tSeason:', lines[i + 1].strip()):
+                    season_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\tSeason: (\d+) <- Missing$', lines[i + 1].strip())
                     if season_match:
                         missing_seasons.append(season_match.group(1))
                     i += 1  # Skip additional season lines
                 series.add((series_name, year, tuple(missing_seasons)))
             elif lines[i].strip() == '|                           Unmatched Collections                            |':
                 i += 1  # Skip the header line
-                while i < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip()):
-                    collection_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip())
+                while i < len(lines) and re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip()):
+                    collection_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip())
                     if collection_match and not collection_match.group(1).startswith('***'):
                         collections.add(collection_match.group(1))
                     i += 1
-            elif re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip()):
-                collection_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip())
+            elif re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip()):
+                collection_match = re.match(r'^\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} [APM]{2} INFO:\s+\t(.*)$', lines[i].strip())
                 if collection_match and not collection_match.group(1).startswith('***'):
                     collections.add(collection_match.group(1))
         i += 1

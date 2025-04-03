@@ -181,3 +181,4 @@ anime_series*.txt
 anime_movies*.txt
 
 unmatched_assets.log
+*.old
